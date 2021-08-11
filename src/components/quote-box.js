@@ -80,55 +80,78 @@ const Author = (props) => {
 }
 
 class QuoteBox extends React.Component {
-    constructor(props) {
-      super(props);
-      
-      const initial = Math.floor(Math.random() * 13);
-      
-      this.state = {
-        quote: quotes[initial].quote,
-        author: quotes[initial].author,
-      }
-      
-      this.newQuote=this.newQuote.bind(this);
-      this.handleEnter=this.handleEnter.bind(this);
-    }
-     
-    newQuote() {
-      //alert('Clicked');
-      const randomizer = Math.floor(Math.random() * 13);
-      
-      this.setState((prevState) => ({
-        quote: quotes[randomizer].quote,
-        author: quotes[randomizer].author,
-      }));
-      
-      if (quotes[randomizer].quote === this.state.quote) {
-        this.newQuote();
-      }
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      quote: '',
+      author: '',
+      iterator: 1
     }
     
-    handleEnter(e) {
-      if (e.charcode === 13) {
-        this.newQuote();
-      }
-    }
-    
-    render() {
-
-      return (
-        <div className="wrapper" id="quote-box">
-          <Text quote={this.state.quote}/>
-          <Author auth={this.state.author} />
-          <button class="btn btn-primary" id="new-quote" onClick={this.newQuote} onKeyPress = {this.handleEnter}>
-            New Quote
-          </button>
-        
-          <a class="twitter-share-button" id="tweet-quote" href="twitter.com/intent/tweet" target="_blank">Tweet this!</a>
-        </div>
-        
-      )
+    this.newQuote=this.newQuote.bind(this);
+    this.handleEnter=this.handleEnter.bind(this);
+    this.shuffle=this.shuffle.bind(this);
+  }
+  
+  componentDidMount() {
+    this.shuffle(quotes);
+    this.setState((state) => ({
+      quote: quotes[0].quote,
+      author: quotes[0].author
+    }));
+  }
+  
+  shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      let holder = array[i];
+      array[i] = array[j];
+      array[j] = holder;
     }
   }
-
+ 
+  newQuote() {
+    //const randomizer = Math.floor(Math.random() * 13);
+  
+    this.setState((state) => ({
+      quote: quotes[this.state.iterator].quote,
+      author: quotes[this.state.iterator].author,
+      iterator: state.iterator + 1
+    }));
+    
+    if (this.state.iterator == quotes.length - 1) {
+      this.shuffle(quotes);
+      this.setState((state) => ({
+        iterator: 0
+      }));
+    }
+    
+    if (quotes[this.state.iterator].quote === this.state.quote) {
+      this.newQuote();
+    }
+  }
+  
+  handleEnter(e) {
+    if (e.charcode == 13) {
+      this.newQuote();
+    }
+  }
+  
+  render() {
+    const twitter = "https://twitter.com/intent/tweet";
+    return (
+      <div className="wrapper" id="quote-box">
+        <Text quote={this.state.quote}/>
+        <Author auth={this.state.author} />
+        <button class="btn btn-primary" id="new-quote" onClick={this.newQuote} onKeyPress = {this.handleEnter}>
+          New Quote
+        </button>
+      
+        <a class="twitter-share-button" id="tweet-quote" href="twitter.com/intent/tweet" target="_blank">Tweet this!</a>
+      </div>
+      
+    )
+  }
+}
   export default QuoteBox;
