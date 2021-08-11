@@ -18,6 +18,6 @@ Left to its own devices, this would break once the value of *iterator* was great
 
 ## Thoughts for Improvement
 
-Since building this app, I've been introduced to React hooks, and I can't help but cringe at all the this's running rampant in the code. I don't quite have the heart to change them, though. I did take the step of making the two child components, **Text* and **Author**, function components rather than full class components, as all the state is held in **QuoteBox** and passed down to them. This eliminates the need for superfluous constructor methods and shortens the code a bit.
+Since building this app, I've been introduced to React hooks, and I can't help but cringe at all the this's running rampant in the code. I don't quite have the heart to change them, though. I did take the step of making the two child components, **Text** and **Author**, function components rather than full class components, as all the state is held in **QuoteBox** and passed down to them. This eliminates the need for superfluous constructor methods and shortens the code a bit.
 
 Perhaps the most obvious potential improvement would be integrating this with a database of some kind, rather than storing the quotes on the front end as an array. I could even envision allowing user-submitted quotes. For the time being, though, this app was and remains a way to practice and demonstrate my basic skills at writing a React app, and keeping it Front-End only served that purpose best.
