@@ -1,3 +1,5 @@
+You can see this app in action via [Heroku](https://ethan-react-quote-generator.herokuapp.com/)
+
 This is a simple React app that serves up a random quote when the page is loaded and when the user clicks "New Quote." The app is front-end only; the quotes are stored as an array of objects, each with two keys -- "quote" and "author."
 
 ## Logic
