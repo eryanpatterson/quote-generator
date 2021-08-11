@@ -1,6 +1,6 @@
 This is a simple React app that serves up a random quote when the page is loaded and when the user clicks "New Quote." The app is front-end only; the quotes are stored as an array of objects, each with two keys -- "quote" and "author."
 
-##Logic
+## Logic
 
 The initial logic implemented in this application returned a quote using Math.random, multiplied by the length of the array. I wanted to ensure that each quote would get returned just as often as any other, though, so the current logic doesn't actually return a random quote; it iterates through the array in a random order.
 
