@@ -1,4 +1,14 @@
 import React from 'react';
+//import fetchSheetData from './sheets';
+
+/*async function getQuotes() {
+  const quotes = await fetchSheetData();
+  console.log(quotes)
+  return quotes;
+}
+
+const blah = getQuotes();
+console.log(blah)
 
 const quotes = [
     {
@@ -67,6 +77,22 @@ const quotes = [
     }
   ];
 
+//const API_KEY = process.env.API_KEY;
+//const sheetUrl = 'https://sheets.googleapis.com/v4/spreadsheets/12ftN_g4eoRJ_H_nIZ__tlCMiyGreDfFgbc7480gVqrA/values/range=A1:B2,majorDimension=ROWS'
+//const quotes = fetch(sheetUrl, {
+  //method: 'GET'
+//})
+
+//console.log(quotes)
+
+/*sheets.spreadsheets.get(params, (err, res) => {
+  if (err) {
+    console.error(err);
+    throw err;
+  }
+  console.log(`The spreadsheet url is ${res.data.url}`);
+});*/
+
 const Text = (props) => {
      
       return <div id="text">
@@ -84,6 +110,7 @@ class QuoteBox extends React.Component {
     super(props);
     
     this.state = {
+      quotes: '',
       quote: '',
       author: '',
       iterator: 1
@@ -93,12 +120,21 @@ class QuoteBox extends React.Component {
     this.handleEnter=this.handleEnter.bind(this);
     this.shuffle=this.shuffle.bind(this);
   }
-  
-  componentDidMount() {
-    this.shuffle(quotes);
+
+  async componentDidMount() {
+    await fetch('https://sheets.googleapis.com/v4/spreadsheets/12ftN_g4eoRJ_H_nIZ__tlCMiyGreDfFgbc7480gVqrA/values/Sheet1!A2:B17?key=AIzaSyBpFnCRSdBqcV0pXpUVz7a3P9L0gBIJa9c')
+        .then(response => response.json())
+        .then((data) => {
+          this.setState({
+            quotes: data.values
+          });
+        });
+    
+    console.log(this.state.quotes)
+    this.shuffle(this.state.quotes);
     this.setState((state) => ({
-      quote: quotes[0].quote,
-      author: quotes[0].author
+      quote: this.state.quotes[0][0],
+      author: this.state.quotes[0][1]
     }));
   }
   
@@ -112,43 +148,41 @@ class QuoteBox extends React.Component {
   }
  
   newQuote() {
-    //const randomizer = Math.floor(Math.random() * 13);
-  
+    console.log(this.state.quotes);  
     this.setState((state) => ({
-      quote: quotes[this.state.iterator].quote,
-      author: quotes[this.state.iterator].author,
+      quote: this.state.quotes[this.state.iterator][0],
+      author: this.state.quotes[this.state.iterator][1],
       iterator: state.iterator + 1
     }));
     
-    if (this.state.iterator == quotes.length - 1) {
-      this.shuffle(quotes);
+    if (this.state.iterator === this.state.quotes.length - 1) {
+      this.shuffle(this.state.quotes);
       this.setState((state) => ({
         iterator: 0
       }));
     }
     
-    if (quotes[this.state.iterator].quote === this.state.quote) {
+    if (this.state.quotes[this.state.iterator][0] === this.state.quote) {
       this.newQuote();
     }
   }
   
   handleEnter(e) {
-    if (e.charcode == 13) {
+    if (e.charcode === 13) {
       this.newQuote();
     }
   }
   
   render() {
-    const twitter = "https://twitter.com/intent/tweet";
     return (
       <div className="wrapper" id="quote-box">
         <Text quote={this.state.quote}/>
         <Author auth={this.state.author} />
-        <button class="btn btn-primary" id="new-quote" onClick={this.newQuote} onKeyPress = {this.handleEnter}>
+        <button className="btn btn-primary" id="new-quote" onClick={this.newQuote} onKeyPress = {this.handleEnter}>
           New Quote
         </button>
       
-        <a class="twitter-share-button" id="tweet-quote" href="twitter.com/intent/tweet" target="_blank">Tweet this!</a>
+        <a className="twitter-share-button" id="tweet-quote" href="twitter.com/intent/tweet" target="_blank">Tweet this!</a>
       </div>
       
     )
