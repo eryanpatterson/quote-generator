@@ -1,6 +1,6 @@
 You can see this app in action via [Heroku](https://ethan-react-quote-generator.herokuapp.com/)
 
-This is a simple React app that serves up a random quote when the page is loaded and when the user clicks "New Quote." The app is front-end only; the quotes are stored as an array of objects, each with two keys -- "quote" and "author."
+This is a simple React app that serves up a random quote when the page is loaded and when the user clicks "New Quote." The app was initially front-end only; the quotes were stored as an array of objects, each with two keys -- "quote" and "author." Currently the quotes are stored in a Google Sheet and fetched through the Sheet API.
 
 ## Logic
 
@@ -21,5 +21,3 @@ Left to its own devices, this would break once the value of *iterator* was great
 ## Thoughts for Improvement
 
 Since building this app, I've been introduced to React hooks, and I can't help but cringe at all the this's running rampant in the code. I don't quite have the heart to change them, though. I did take the step of making the two child components, **Text** and **Author**, function components rather than full class components, as all the state is held in **QuoteBox** and passed down to them. This eliminates the need for superfluous constructor methods and shortens the code a bit.
-
-Perhaps the most obvious potential improvement would be integrating this with a database of some kind, rather than storing the quotes on the front end as an array. I could even envision allowing user-submitted quotes. For the time being, though, this app was and remains a way to practice and demonstrate my basic skills at writing a React app, and keeping it Front-End only served that purpose best.
