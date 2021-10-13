@@ -1,7 +1,5 @@
 import React from 'react';
 
-const API_KEY = process.env.API_KEY;
-
 const Text = (props) => {
      
       return <div id="text">
@@ -31,7 +29,7 @@ class QuoteBox extends React.Component {
   }
 
   async componentDidMount() {
-    await fetch(`https://sheets.googleapis.com/v4/spreadsheets/12ftN_g4eoRJ_H_nIZ__tlCMiyGreDfFgbc7480gVqrA/values/Sheet1!A2:B17?key=${API_KEY}`)
+    await fetch('https://sheets.googleapis.com/v4/spreadsheets/12ftN_g4eoRJ_H_nIZ__tlCMiyGreDfFgbc7480gVqrA/values/Sheet1!A2:B17?key=AIzaSyBpFnCRSdBqcV0pXpUVz7a3P9L0gBIJa9c')
         .then(response => response.json())
         .then((data) => {
           this.setState({
