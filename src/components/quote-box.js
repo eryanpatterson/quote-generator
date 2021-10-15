@@ -1,5 +1,8 @@
 import React from 'react';
 
+const apiUrl = 'https://sheets.googleapis.com/v4/spreadsheets/12ftN_g4eoRJ_H_nIZ__tlCMiyGreDfFgbc7480gVqrA/values/Sheet1!';
+const apiKey = 'AIzaSyBpFnCRSdBqcV0pXpUVz7a3P9L0gBIJa9c';
+
 const Text = (props) => {
      
       return <div id="text">
@@ -29,7 +32,10 @@ class QuoteBox extends React.Component {
   }
 
   async componentDidMount() {
-    await fetch('https://sheets.googleapis.com/v4/spreadsheets/12ftN_g4eoRJ_H_nIZ__tlCMiyGreDfFgbc7480gVqrA/values/Sheet1!A2:B18?key=AIzaSyBpFnCRSdBqcV0pXpUVz7a3P9L0gBIJa9c')
+    const rows = await fetch(`${apiUrl}E1?key=${apiKey}`)
+      .then(response => response.json())
+      .then((data) => data.values[0])
+    await fetch(`${apiUrl}A2:B${rows}?key=${apiKey}`)
         .then(response => response.json())
         .then((data) => {
           this.setState({
